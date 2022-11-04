@@ -11,6 +11,6 @@ from . import auto_test
 #   network_controller_test.CreateFormTest().main()
 
 
-auto_test.client_auto_tests()
+auto_test.client_auto_tests()emp
 anvil.server.call('server_auto_tests')
 open_form('TestForm')
