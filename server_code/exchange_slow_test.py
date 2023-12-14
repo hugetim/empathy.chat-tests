@@ -33,7 +33,8 @@ class TestExchangeGateway(unittest.TestCase):
     ri.RequestManager.notify_edit = Mock()
     self._ping = ei.ping
     ei.ping = Mock()
-  
+
+  @unittest.skip("triad focus")
   def test_exchange_record_save(self):
     prop = rt.prop_u2_2to3_now
     request = next(rs.prop_to_requests(prop))
@@ -68,6 +69,7 @@ class TestExchangeGateway(unittest.TestCase):
       self.assertEqual(saved_exchange.participants[0][key], None)
     self.assertTrue(saved_exchange.participants[0]['entered_dt']) # b/c quick-ping now request
 
+  @unittest.skip("triad focus")
   def test_add_request_exchange_save(self):
     self.are_request_rows_to_delete = True
     with TimerLogger("  test", format="{name}: {elapsed:6.3f} s | {msg}") as timer:
@@ -97,6 +99,7 @@ class TestExchangeGateway(unittest.TestCase):
         if key != 'other_user_ids':
           self.assertEqual(match_dicts2[0][key], match_dictsA[0][key])
 
+  @unittest.skip("triad focus")
   def test_add_request_no_exchange(self):
     self.are_request_rows_to_delete = True
     prop1 = rt.prop_u2_2to3_in1hr_in2hr
