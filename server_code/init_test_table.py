@@ -121,3 +121,10 @@ def init_tables():
         'user': user_rows[ems['test_user3_email']]},
     ]
   )
+
+
+  # app_tables.files.add_rows(
+  #     [ { 'name': 'nvc_feelings_needs',
+  #         'file': ()}]
+  # )
+    
