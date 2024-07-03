@@ -9,6 +9,7 @@ from empathy_chat import invites
 from empathy_chat import ui_procedures as ui
 from .. import auto_test
 from ..test_helper import UserLoggedIn
+from .. import add_files
 
 
 class TestForm(TestFormTemplate):
@@ -72,6 +73,7 @@ class TestForm(TestFormTemplate):
 
   def slowtest_button_click(self, **event_args):
     """This method is called when the button is clicked"""
+    add_files.store_files_if_missing()
     with UserLoggedIn():
       anvil.server.call('slow_tests')
 

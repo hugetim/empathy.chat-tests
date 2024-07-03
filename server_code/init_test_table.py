@@ -8,6 +8,11 @@ import datetime
 from empathy_chat import accounts
 
 
+@anvil.server.callable
+def store_files(file_map):
+    app_tables.files.add_rows([{'name': name, 'file': media} for name, media in file_map.items()])
+
+
 @tables.in_transaction(relaxed=True)
 def init_tables():
   ems = {key: secrets.get_secret(key) for key in ('admin_email', 'test_user2_email', 'test_user3_email')}
