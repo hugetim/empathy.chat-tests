@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import Mock
 import datetime
-from anvil.tables import app_tables
-import anvil.tables.query as q
-import anvil.tables
+import auto_batch.tables as tables
+import auto_batch.tables.query as q
+from auto_batch.tables import app_tables
 from .misc_server_test import ADMIN, USER2, USER3
 from . import request_test as rt
 from . import request_slow_test as rst
@@ -194,7 +194,7 @@ class TestExchangeGateway(unittest.TestCase):
       rows_created = app_tables.requests.search(rg.requests_fetch, create_dt=q.greater_than_or_equal_to(self.test_start_dt))
     if self.are_ep_rows_to_delete:
       ep_rows_created = app_tables.exchange_prospects.search(q.fetch_only(), create_dt=q.greater_than_or_equal_to(self.test_start_dt))
-    with anvil.tables.batch_delete:
+    with tables.batch_delete:
       for row in [rr._row for rr in self.request_records_saved]:
         row.delete()
       for row in [er._row for er in self.exchange_records_saved]:

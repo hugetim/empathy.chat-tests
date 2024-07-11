@@ -3,6 +3,9 @@ dependencies:
   version: {dev: true}
 - app_id: C6ZZPAPN4YYF5NVJ
   version: {version_tag: v2.5.3}
+- dep_id: dep_vnhn7facw4tl
+  version: {dev: false}
+  resolution_hints: {app_id: PKF2MZRQMPCXFWNE, name: AutoBatch, package_name: auto_batch}
 services:
 - source: /runtime/services/tables.yml
   client_config: {enable_v2: true}
