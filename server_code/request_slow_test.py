@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import Mock
-from anvil.tables import app_tables
-import anvil.tables.query as q
-import anvil.tables
+import auto_batch.tables as tables
+import auto_batch.tables.query as q
+from auto_batch.tables import app_tables
 from .misc_server_test import ADMIN, USER2, USER3
 from . import request_test as rt
 from empathy_chat import request_interactor as ri
@@ -209,7 +209,7 @@ class TestRequestGateway(unittest.TestCase):
     ri.RequestManager.notify_edit = self._notify_edit
     if self.are_rows_to_delete:
       rows_created = app_tables.requests.search(rg.requests_fetch, create_dt=q.greater_than_or_equal_to(self.test_start_dt))
-    with anvil.tables.batch_delete:
+    with tables.AutoBatch():
       for rr in self.request_records_saved:
         rr._row.delete()
       if self.are_rows_to_delete:

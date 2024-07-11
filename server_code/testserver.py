@@ -1,6 +1,7 @@
 import anvil.users
-import anvil.tables
-from anvil.tables import app_tables
+import auto_batch.tables as tables
+from auto_batch.tables import app_tables
+from auto_batch.auto_batch import debatchify
 import anvil.server
 import anvil.secrets as secrets
 from empathy_chat import server_misc as sm
@@ -19,12 +20,12 @@ def force_login(user_id=None):
     user = app_tables.users.get_by_id(user_id)
   else:
     user = app_tables.users.get(email=secrets.get_secret('admin_email'))
-  anvil.users.force_login(user)
+  anvil.users.force_login(debatchify(user))
   return user
 
 
 @anvil.server.callable
-@anvil.tables.in_transaction(relaxed=True)
+@tables.in_transaction(relaxed=True)
 def test_add_user(em, level=1):
   print("test_add_user", em, level)
   if True: #anvil.users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
@@ -108,7 +109,7 @@ def test_clear():
 
 
 @anvil.server.background_task
-@anvil.tables.in_transaction
+@tables.in_transaction
 def _clear_test_records():
   pass
 #     test_records = app_tables.test_data.search()

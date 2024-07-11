@@ -1,7 +1,7 @@
 import anvil.server
 from anvil import URLMedia
-from anvil.tables import app_tables
-from anvil.tables import query as q
+import auto_batch.tables.query as q
+from auto_batch.tables import app_tables
 
 
 class AssetFiles:

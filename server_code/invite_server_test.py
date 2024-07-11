@@ -1,8 +1,8 @@
 import anvil.users
 import anvil.secrets as secrets
-import anvil.tables
-from anvil.tables import app_tables, order_by
-import anvil.tables.query as q
+import auto_batch.tables as tables
+import auto_batch.tables.query as q
+from auto_batch.tables import app_tables, order_by
 from .misc_server_test import ADMIN, USER2
 from empathy_chat import invites
 from empathy_chat import invites_server
@@ -118,7 +118,7 @@ class InviteLinkTest(unittest.TestCase):
   def tearDown(self):
     anvil.users.force_login(ADMIN)
     test_invites = app_tables.invites.search(user1=q.any_of(ADMIN, USER2), date=q.greater_than_or_equal_to(self.start_time))
-    with anvil.tables.batch_delete:
+    with tables.AutoBatch():
       for test_invite in test_invites:
         test_invite.delete()
 
@@ -193,7 +193,7 @@ class InviteConnectTest(unittest.TestCase):
   def tearDown(self):
     anvil.users.force_login(ADMIN)
     test_invites = app_tables.invites.search(user1=q.any_of(ADMIN, USER2), date=q.greater_than_or_equal_to(self.start_time))
-    with anvil.tables.batch_delete:
+    with tables.AutoBatch():
       for test_invite in test_invites:
         test_invite.delete()
     USER2['phone'] = self.phone_store

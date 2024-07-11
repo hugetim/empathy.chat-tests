@@ -10,8 +10,8 @@ import empathy_chat.parameters as p
 from empathy_chat import server_misc as sm
 from empathy_chat import requests as rs
 from empathy_chat import groups
-from anvil import tables
-from anvil.tables import app_tables
+import auto_batch.tables as tables
+from auto_batch.tables import app_tables
 
 
 admin_id = ADMIN.get_id()

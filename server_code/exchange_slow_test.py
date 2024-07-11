@@ -194,7 +194,7 @@ class TestExchangeGateway(unittest.TestCase):
       rows_created = app_tables.requests.search(rg.requests_fetch, create_dt=q.greater_than_or_equal_to(self.test_start_dt))
     if self.are_ep_rows_to_delete:
       ep_rows_created = app_tables.exchange_prospects.search(q.fetch_only(), create_dt=q.greater_than_or_equal_to(self.test_start_dt))
-    with tables.batch_delete:
+    with tables.AutoBatch():
       for row in [rr._row for rr in self.request_records_saved]:
         row.delete()
       for row in [er._row for er in self.exchange_records_saved]:

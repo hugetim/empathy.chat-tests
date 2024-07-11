@@ -4,7 +4,7 @@ from empathy_chat.exchanges import Exchange
 from empathy_chat.requests import ExchangeFormat
 from empathy_chat import exchange_interactor as ei
 from empathy_chat.exceptions import RowMissingError
-from anvil.tables import app_tables
+from auto_batch.tables import app_tables
 from empathy_chat.server_misc import now
 from anvil import secrets
 

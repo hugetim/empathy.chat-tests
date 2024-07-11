@@ -1,8 +1,8 @@
 import anvil.server
 import anvil.tz
 from anvil import tables
-from anvil.tables import app_tables
-import anvil.tables.query as q
+import auto_batch.tables.query as q
+from auto_batch.tables import app_tables
 import anvil.secrets as secrets
 import datetime
 from empathy_chat import accounts

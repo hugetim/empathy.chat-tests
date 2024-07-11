@@ -1,8 +1,7 @@
 import anvil.server
 import anvil.secrets as secrets
-import anvil.tables
-from anvil.tables import app_tables, order_by
-import anvil.tables.query as q
+import auto_batch.tables.query as q
+from auto_batch.tables import app_tables, order_by
 import unittest
 from unittest.mock import Mock
 from empathy_chat import matcher as m
