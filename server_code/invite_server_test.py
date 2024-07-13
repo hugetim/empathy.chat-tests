@@ -1,4 +1,4 @@
-import anvil.users
+import auto_batch.users as users
 import anvil.secrets as secrets
 import auto_batch.tables as tables
 import auto_batch.tables.query as q
@@ -54,7 +54,7 @@ class InviteLinkTest(unittest.TestCase):
   @timed
   def test_logged_in_visit_mistaken_inviter_guess(self):
     self.add_link_invite()
-    anvil.users.force_login(USER2)
+    users.force_login(USER2)
     with self.assertRaises(MistakenGuessError) as context:
       invite = invites_server.load_from_link_key(self.s_invite1.link_key)
     self.assertTrue(p.MISTAKEN_INVITER_GUESS_ERROR in str(context.exception))
@@ -66,14 +66,14 @@ class InviteLinkTest(unittest.TestCase):
     
   def test_logged_in_visit_correct_inviter_guess(self):
     self.add_link_invite(inviter_guess=secrets.decrypt_with_key("new_key", USER2['phone'])[-4:])
-    anvil.users.force_login(USER2)
+    users.force_login(USER2)
     invite = invites_server.load_from_link_key(self.s_invite1.link_key)
     self.assertEqual(invite.rel_to_inviter, 'test subject 1')
     self.assertEqual(invite.link_key, self.s_invite1.link_key)
 
   def test_new_visit(self):
     self.add_link_invite()
-    anvil.users.logout()
+    users.logout()
     invite2c = invites_server.load_from_link_key(self.s_invite1.link_key)
     self.assertFalse(invite2c.invitee)
     self.assertTrue(invite2c.invite_id)
@@ -89,14 +89,14 @@ class InviteLinkTest(unittest.TestCase):
     self.add_link_invite()
     link_key = self.s_invite1.link_key
     self.cancel_link_invite()
-    anvil.users.logout()
+    users.logout()
     with self.assertRaises(InvalidInviteError) as context:
       invite2c = invites_server.load_from_link_key(link_key)
     self.assertTrue("This invite link is no longer active." in str(context.exception))
 
   def test_new_authorizes(self):
     self.add_link_invite()
-    anvil.users.logout()
+    users.logout()
     invite2c = invites_server.load_from_link_key(self.s_invite1.link_key)
     s_invite2c = invites_server.Invite(invite2c)
     s_invite2c['invitee_guess'] = "6688"
@@ -116,7 +116,7 @@ class InviteLinkTest(unittest.TestCase):
       test_prompt.delete()
   
   def tearDown(self):
-    anvil.users.force_login(ADMIN)
+    users.force_login(ADMIN)
     test_invites = app_tables.invites.search(user1=q.any_of(ADMIN, USER2), date=q.greater_than_or_equal_to(self.start_time))
     with tables.AutoBatch():
       for test_invite in test_invites:
@@ -158,10 +158,10 @@ class InviteConnectTest(unittest.TestCase):
     self.s_invite2['invitee_guess'] = "6688"
     self.s_invite2['rel_to_invitee'] = "tester 3"
     self.assertEqual(self.s_invite2.inviter, ADMIN)
-    anvil.users.force_login(USER2)
+    users.force_login(USER2)
     invites_server.respond_to_close_invite(self.s_invite2.portable())
     self.assertEqual(c.distance(ADMIN, USER2, up_to_distance=1), 1)
-    anvil.users.force_login(ADMIN)
+    users.force_login(ADMIN)
     c.disconnect(USER2.get_id())
 
   def test_logged_in_connect_response_failed_guess(self):
@@ -169,7 +169,7 @@ class InviteConnectTest(unittest.TestCase):
     self.s_invite2['invitee_guess'] = "5678"
     self.s_invite2['rel_to_invitee'] = "tester 3"
     self.assertEqual(self.s_invite2.inviter, ADMIN)
-    anvil.users.force_login(USER2)
+    users.force_login(USER2)
     with self.assertRaises(MistakenGuessError) as context:
       invites_server.respond_to_close_invite(self.s_invite2.portable())
     self.assertTrue("did not accurately provide the last 4 digits" in str(context.exception))
@@ -179,7 +179,7 @@ class InviteConnectTest(unittest.TestCase):
     self.s_invite2['invitee_guess'] = "6688"
     self.s_invite2['rel_to_invitee'] = "tester 3"
     self.assertEqual(self.s_invite2.inviter, ADMIN)
-    anvil.users.force_login(USER2)
+    users.force_login(USER2)
     USER2['phone'] = secrets.encrypt_with_key("new_key", "1234")
     with self.assertRaises(MistakenGuessError) as context:
       invites_server.respond_to_close_invite(self.s_invite2.portable())
@@ -191,7 +191,7 @@ class InviteConnectTest(unittest.TestCase):
       test_prompt.delete()
 
   def tearDown(self):
-    anvil.users.force_login(ADMIN)
+    users.force_login(ADMIN)
     test_invites = app_tables.invites.search(user1=q.any_of(ADMIN, USER2), date=q.greater_than_or_equal_to(self.start_time))
     with tables.AutoBatch():
       for test_invite in test_invites:

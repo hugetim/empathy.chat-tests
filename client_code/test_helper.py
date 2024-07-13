@@ -1,4 +1,5 @@
-import anvil.users
+import anvil.server
+import auto_batch.users as users
 from empathy_chat import glob
 
 
@@ -73,7 +74,7 @@ class UserLoggedIn:
     glob.default_request = user['default_request']
     return user
   def __exit__(self, exc_type, exc_value, exc_tb):
-    anvil.users.logout()
+    users.logout()
     glob.trust_level = 0
     glob.logged_in_user = None
     glob.logged_in_user_id = ""

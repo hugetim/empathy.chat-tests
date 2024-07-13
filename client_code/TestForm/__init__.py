@@ -1,7 +1,6 @@
 from ._anvil_designer import TestFormTemplate
 from anvil import *
 import anvil.server
-import anvil.users
 from empathy_chat.MenuForm.DashForm.CreateForm import CreateForm
 from empathy_chat import portable as t
 from empathy_chat import glob

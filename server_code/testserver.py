@@ -1,7 +1,6 @@
-import anvil.users
+import auto_batch.users as users
 import auto_batch.tables as tables
 from auto_batch.tables import app_tables
-from auto_batch.auto_batch import debatchify
 import anvil.server
 import anvil.secrets as secrets
 from empathy_chat import server_misc as sm
@@ -20,7 +19,7 @@ def force_login(user_id=None):
     user = app_tables.users.get_by_id(user_id)
   else:
     user = app_tables.users.get(email=secrets.get_secret('admin_email'))
-  anvil.users.force_login(debatchify(user))
+  users.force_login(user)
   return user
 
 
@@ -28,7 +27,7 @@ def force_login(user_id=None):
 @tables.in_transaction(relaxed=True)
 def test_add_user(em, level=1):
   print("test_add_user", em, level)
-  if True: #anvil.users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
+  if True: #users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
     if not anvil.server.session.get('test_record'):
       anvil.server.session['test_record'] = create_tests_record()
     new_user = app_tables.users.add_row(email=em,
@@ -45,7 +44,7 @@ def test_add_user(em, level=1):
 @anvil.server.callable
 def test_add_proposal(user_id, port_prop):
   print("test_add_request", user_id)
-  if True: #anvil.users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
+  if True: #users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
     user = sm.get_acting_user(user_id)
     matcher.propagate_update_needed()
     prop_id = rst.add_request(user, port_prop)
@@ -64,7 +63,7 @@ def test_add_proposal(user_id, port_prop):
 # @anvil.server.callable
 # def add_now_proposal():
 #   print("add_now_proposal")
-#   if True: #anvil.users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
+#   if True: #users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
 #     tester = sm.get_acting_user()
 #     matcher.propagate_update_needed()
 #     anvil.server.call('add_proposal', portable.Proposal(times=[portable.ProposalTime(start_now=True)]), user_id=tester.get_id())
@@ -76,7 +75,7 @@ def test_add_proposal(user_id, port_prop):
 @anvil.server.callable
 def accept_now_proposal(user_id):
   print("accept_now_proposal", user_id)
-  if True: #anvil.users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
+  if True: #users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
     tester = ADMIN
     matcher.propagate_update_needed()
     tester_now_request = ri.now_request(tester)
@@ -102,7 +101,7 @@ def accept_now_proposal(user_id):
 @anvil.server.callable
 def test_clear():
   print("('test_clear')")
-  if True: #anvil.users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
+  if True: #users.get_user()['trust_level'] >= sm.TEST_TRUST_LEVEL:
     anvil.server.launch_background_task('_clear_test_records')
   if anvil.server.session.get('test_record'):
     del anvil.server.session['test_record']
