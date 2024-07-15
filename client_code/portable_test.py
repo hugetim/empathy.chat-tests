@@ -13,5 +13,7 @@ class PortUserTest(unittest.TestCase):
       self.assertEqual(port_user.user_id, port_user_old.user_id)
       self.assertEqual(port_user.distance, 0)
       self.assertEqual(port_user_old.distance, 0)
+      print(repr(port_user_old))
+      print(repr(port_user))
       self.assertTrue(port_user.profile)
     
