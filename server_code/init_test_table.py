@@ -23,6 +23,7 @@ def init_tables():
       'email': ems['admin_email'],
       'enabled': True,
       'first_name': 'Tim',
+      'phone': secrets.encrypt_with_key("encryption_key", "+15555556688"),
       'how_empathy': ('Feel free to interrupt with empathy guesses, preferably in '
                       'something close to the classic form: "Are you feeling '
                       '_________ because you\'re needing ________?"'),
@@ -44,6 +45,7 @@ def init_tables():
       'email': ems['test_user2_email'],
       'enabled': True,
       'first_name': 'Julie',
+      'phone': secrets.encrypt_with_key("encryption_key", "+15555555555"),
       'how_empathy': 'test how',
       'init_date': datetime.datetime(2023, 5, 30, 20, 55, 28, 581452, tzinfo=anvil.tz.tzoffset(hours=0)),
       'last_login': datetime.datetime(2023, 11, 5, 1, 43, 23, 558000, tzinfo=anvil.tz.tzoffset(hours=0)),
@@ -60,6 +62,7 @@ def init_tables():
       'email': ems['test_user3_email'],
       'enabled': True,
       'first_name': 'Linda',
+      'phone': secrets.encrypt_with_key("encryption_key", "+12025555555"),
       'how_empathy': 'Please wait until I request an empathy guess.',
       'init_date': datetime.datetime(2023, 11, 29, 19, 36, 35, 200730, tzinfo=anvil.tz.tzoffset(hours=0)),
       'last_login': datetime.datetime(2024, 1, 28, 19, 54, 44, 203000, tzinfo=anvil.tz.tzoffset(hours=0)),

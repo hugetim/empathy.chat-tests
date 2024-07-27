@@ -65,7 +65,7 @@ class InviteLinkTest(unittest.TestCase):
       test_prompt.delete()
     
   def test_logged_in_visit_correct_inviter_guess(self):
-    self.add_link_invite(inviter_guess=secrets.decrypt_with_key("new_key", USER2['phone'])[-4:])
+    self.add_link_invite(inviter_guess=secrets.decrypt_with_key("encryption_key", USER2['phone'])[-4:])
     users.force_login(USER2)
     invite = invites_server.load_from_link_key(self.s_invite1.link_key)
     self.assertEqual(invite.rel_to_inviter, 'test subject 1')
@@ -180,7 +180,7 @@ class InviteConnectTest(unittest.TestCase):
     self.s_invite2['rel_to_invitee'] = "tester 3"
     self.assertEqual(self.s_invite2.inviter, ADMIN)
     users.force_login(USER2)
-    USER2['phone'] = secrets.encrypt_with_key("new_key", "1234")
+    USER2['phone'] = secrets.encrypt_with_key("encryption_key", "1234")
     with self.assertRaises(MistakenGuessError) as context:
       invites_server.respond_to_close_invite(self.s_invite2.portable())
     self.assertTrue(p.MISTAKEN_INVITER_GUESS_ERROR in str(context.exception))
