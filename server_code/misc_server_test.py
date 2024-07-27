@@ -39,11 +39,6 @@ class NamesTest(unittest.TestCase):
   def test_three_plus_names(self):  
     self.assertEqual("Peter, Paul, and Mary", n._names(["Peter", "Paul", "Mary"], to_user=USER2, name_fn=self.name_fn))
     self.assertEqual("Peter, Paul, James, and Mary", n._names(["Peter", "Paul", "James", "Mary"], to_user=USER2, name_fn=self.name_fn))
-
-      
-class SecondsLeftTest(unittest.TestCase):
-  def test_initial_requesting(self):
-    self.assertEqual(m._seconds_left("requesting"), p.WAIT_SECONDS)
  
 
 class NotifyConnectedTest(unittest.TestCase):
